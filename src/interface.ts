@@ -1,4 +1,3 @@
-
 enum PaymentStatus {
     Success = 'success',
     Failed = 'failed',
