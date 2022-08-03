@@ -1,38 +1,43 @@
-interface IUserServiceCatchDecorator {
+interface IUserServicePropertyDecorator {
     users: number;
     getUserInDatabase(): number;
 }
 
-class UserServiceCatchDecorator implements IUserServiceCatchDecorator {
+class UserServicePropertyDecorator implements IUserServicePropertyDecorator {
+    @Max(100)
     users: number = 1000;
 
-    @Catch({ rethrow: true })
     getUserInDatabase(): number {
         throw new Error('Ошибка')
     }
 }
 
-function Catch({ rethrow}: { rethrow: boolean } = { rethrow: true }) {
+function Max(max: number) {
     return (
         target: Object,
-        _: string | symbol,
-        descriptor: TypedPropertyDescriptor<(...args: any[]) => any>
-    ): TypedPropertyDescriptor<(...args: any[]) => any> | void => {
-        const method = descriptor.value;
-
-        descriptor.value = (...args: any[]) => {
-            try {
-                return method?.apply(target, args);
-            } catch (e) {
-                if (e  instanceof Error) {
-                    console.log(e.message);
-                    if (rethrow) {
-                        throw e;
-                    }
-                }
+        propertyKey: string | symbol
+    ) => {
+        let value: number;
+        const setter = function (newValue: number) {
+            if (newValue > max) {
+                console.log(`Not set ${max}`)
+            } else {
+                value = newValue
             }
         }
+
+        const getter = function () {
+            return value
+        }
+
+        Object.defineProperty(target, propertyKey, {
+            set: setter,
+            get: getter
+        })
     }
 }
-
-console.log((new UserServiceDecorator().getUserInDatabase()));
+const userService = new UserServicePropertyDecorator();
+userService.users = 1;
+console.log(userService.users);
+userService.users = 1000;
+console.log(userService.users);
