@@ -52,7 +52,7 @@ abstract class InsurenceFactory {
     abstract createInsurance(): IInsurence;
 
     saveHistory(ins: IInsurence) {
-        this.db.save(this.id, ins.status);
+        this.db.save(ins.id, ins.status);
     }
 } 
 
