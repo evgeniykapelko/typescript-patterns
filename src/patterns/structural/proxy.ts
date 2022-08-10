@@ -32,4 +32,4 @@ const proxy = new PaymentAccessProxy(new PaymentAPI(), 1);
 console.log(proxy.getPaymentDetail(1));
 
 const proxy2 = new PaymentAccessProxy(new PaymentAPI(), 2);
-console.log(proxy.getPaymentDetail(1));
+console.log(proxy2.getPaymentDetail(1));
