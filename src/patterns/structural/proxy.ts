@@ -15,7 +15,7 @@ class PaymentAPI implements IPaymentAPI {
     }
 }
 
-class PaymentAccessProxy {
+class PaymentAccessProxy implements IPaymentAPI {
     constructor(private api: PaymentAPI, private userId: number) {}
 
     getPaymentDetail(id: number): IPaymentDetail | undefined {
@@ -23,7 +23,7 @@ class PaymentAccessProxy {
             return this.api.getPaymentDetail(id)
         }
 
-        console.log('Access data payment');
+        console.log('Try access data payment');
         return undefined;
     }
 }
