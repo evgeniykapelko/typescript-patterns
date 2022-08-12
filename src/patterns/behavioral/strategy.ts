@@ -41,7 +41,9 @@ class Githubtrategy implements AuthStrategy {
 
 const userStrategy = new UserStrategy();
 userStrategy.jwtToken = 'token';
+
 const authS = new Auth(new JWTStrategy());
 console.log(authS.authUser(userStrategy));
+
 authS.setStrategy(new Githubtrategy());
 console.log(authS.authUser(userStrategy));
